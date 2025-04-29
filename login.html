@@ -2,18 +2,63 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label, input {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        p {
+            text-align: center;
+        }
+        a {
+            color: #28a745;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login Page</h2>
     <form action="/login" method="POST">
-        <label for="username">Username or Email:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+        <h2>Login</h2>
+        <label for="username">Username or Email:</label>
+        <input type="text" id="username" name="username" required>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
         <input type="submit" value="Login">
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
     </form>
-    <p>Don't have an account? <a href="register.html">Register here</a></p>
 </body>
 </html>
