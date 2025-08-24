@@ -1,79 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sachin's Portfolio</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hello Dinesh Ghadashi — Animated</title>
+<style>
+  :root{
+    --bg1:#0f1020;
+    --bg2:#1a1b3a;
+    --accent:#8b5cf6;   /* purple */
+    --accent2:#06b6d4;  /* cyan */
+    --glass:rgba(255,255,255,.08);
+    --white: #ffffff;
+  }
+
+  /* Reset + layout */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    color:var(--white);
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    background: radial-gradient(1200px 600px at 15% 10%, #2a2b52 0%, transparent 60%),
+                radial-gradient(900px 500px at 85% 90%, #1f3156 0%, transparent 60%),
+                linear-gradient(120deg,var(--bg1),var(--bg2));
+    animation: bgShift 16s ease-in-out infinite alternate;
+  }
+
+  /* Floating sparkles */
+  .sparkles::before,
+  .sparkles::after{
+    content:"";
+    position:absolute;
+    inset:-10vmax;
+    background:
+      radial-gradient(3px 3px at 10% 20%, rgba(255,255,255,.7) 50%, transparent 55%),
+      radial-gradient(2px 2px at 30% 80%, rgba(255,255,255,.6) 50%, transparent 55%),
+      radial-gradient(2.5px 2.5px at 60% 30%, rgba(255,255,255,.5) 50%, transparent 55%),
+      radial-gradient(3px 3px at 80% 60%, rgba(255,255,255,.7) 50%, transparent 55%),
+      radial-gradient(2px 2px at 50% 50%, rgba(255,255,255,.5) 50%, transparent 55%);
+    animation: drift 22s linear infinite;
+    filter: blur(.2px);
+    opacity:.35;
+    pointer-events:none;
+  }
+  .sparkles::after{
+    animation-duration: 28s;
+    transform: scale(1.2);
+    opacity:.25;
+  }
+
+  /* Card */
+  .card{
+    position:relative;
+    padding: clamp(18px, 4.5vw, 48px);
+    border-radius: 28px;
+    backdrop-filter: blur(12px);
+    background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+    border: 1px solid rgba(255,255,255,.15);
+    box-shadow:
+      0 10px 30px rgba(0,0,0,.35),
+      inset 0 0 40px rgba(255,255,255,.03);
+    max-width:min(94vw, 920px);
+    text-align:center;
+  }
+
+  /* Accent ring */
+  .card::before{
+    content:"";
+    position:absolute; inset:-2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--angle),
+      transparent 0 30%,
+      rgba(255,255,255,.15) 30% 35%,
+      transparent 35% 60%,
+      rgba(255,255,255,.18) 60% 65%,
+      transparent 65% 100%
+    );
+    z-index:-1;
+    animation: rotate 10s linear infinite;
+    mask: 
+      radial-gradient(closest-side, transparent 95%, black 96%) exclude,
+      linear-gradient(#000,#000);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+
+  /* Title lines */
+  .topline{
+    font-size: clamp(14px, 2.6vw, 20px);
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    opacity:.85;
+    margin-bottom: clamp(8px,1.6vw,14px);
+  }
+
+  /* Typewriter “Hello” */
+  .hello{
+    display:inline-block;
+    font-weight:700;
+    font-size: clamp(26px, 7vw, 64px);
+    line-height:1.05;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: .12em solid rgba(255,255,255,.8);
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,.35));
+    width: 0ch;              /* starts hidden */
+    animation:
+      typing 2.2s steps(12) forwards,
+      caret .8s steps(1) infinite 2.2s; /* blink after typing */
+  }
+
+  /* Gradient name with shine */
+  .name{
+    display:block;
+    font-weight:900;
+    font-size: clamp(32px, 10vw, 92px);
+    line-height:1.02;
+    letter-spacing:.02em;
+    margin-top: clamp(6px, 1vw, 10px);
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+    background-size: 200% 100%;
+    -webkit-background-clip:text;
+            background-clip:text;
+    color: transparent;
+    animation: shimmer 4.5s ease-in-out infinite alternate 1.9s;
+    text-shadow: 0 0 0 rgba(0,0,0,0); /* ensures crisp edges */
+  }
+
+  /* Subtext chip */
+  .chip{
+    display:inline-block;
+    margin-top: clamp(10px, 2vw, 16px);
+    padding: .55em 1em;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    background: var(--glass);
+    font-size: clamp(12px, 2.8vw, 15px);
+    opacity:.9;
+    backdrop-filter: blur(8px);
+  }
+
+  /* Floating glow orbs */
+  .orb{
+    position:absolute;
+    width: 42vmin; height: 42vmin;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity:.35;
+    z-index:-1;
+    animation: float 12s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 30% 30%, rgba(139,92,246,.9), rgba(139,92,246,0) 60%);
+  }
+  .orb.cyan{
+    background: radial-gradient(circle at 70% 70%, rgba(6,182,212,.9), rgba(6,182,212,0) 60%);
+    animation-duration: 15s;
+  }
+  .orb.one{ top:-14vmin; left:-10vmin; }
+  .orb.two{ bottom:-16vmin; right:-8vmin; }
+
+  /* Motion-reduction */
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important}
+    .hello{width:auto;border-right:none}
+  }
+
+  /* Keyframes */
+  @keyframes typing { to { width: 5ch; } } /* “Hello” = 5 characters */
+  @keyframes caret { 50% { border-right-color: transparent; } }
+  @keyframes shimmer { to { background-position: 200% 0; } }
+  @keyframes rotate { to { --angle: 1turn; } }
+  @keyframes float {
+    from { transform: translateY(-1.5vmin) translateX(0); }
+    to   { transform: translateY(1.5vmin)  translateX(.8vmin); }
+  }
+  @keyframes drift {
+    from { transform: translateY(0) }
+    to   { transform: translateY(-6vh) }
+  }
+  @keyframes bgShift{
+    0%{ filter:hue-rotate(0deg) }
+    100%{ filter:hue-rotate(12deg) }
+  }
+</style>
 </head>
 <body>
+  <div class="sparkles"></div>
 
-<!-- Sidebar -->
-<aside>
-  <h1>MyPortfolio</h1>
-  <nav>
-    <a href="https://chatgpt.com/">Home</a>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</aside>
+  <div class="card">
+    <div class="orb one"></div>
+    <div class="orb two cyan"></div>
 
-<!-- Main Content -->
-<main>
-  <section id="hero" class="hero">
-    <h2>Hi, I'm <span style="color:#00c9ff;">Sachin Ghadashi</span></h2>
-    <p>Creative Developer | Designer | Problem Solver</p>
-  </section>
+    <div class="topline">WELCOME</div>
 
-  <section id="about" class="about">
-    <h2 class="section-title">About Me</h2>
-    <p>
-      I'm a passionate developer skilled in web design, front-end and back-end development. 
-      I enjoy building interactive, user-friendly websites with modern design principles.
-    </p>
-  </section>
+    <div class="hello" aria-label="Hello">Hello</div>
 
-  <section id="projects" class="projects">
-    <h2 class="section-title">Projects</h2>
-    <div class="project-list">
-      <div class="project">
-        <h3>Project One</h3>
-        <p>A responsive website built with HTML, CSS, and JavaScript.</p>
-      </div>
-      <div class="project">
-        <h3>Project Two</h3>
-        <p>A full-stack application using the MERN stack.</p>
-      </div>
-      <div class="project">
-        <h3>Project Three</h3>
-        <p>Mobile app UI design & implementation with Flutter.</p>
-      </div>
-    </div>
-  </section>
+    <span class="name" aria-label="Dinesh Ghadashi">
+      Dinesh&nbsp;Ghadashi
+    </span>
 
-  <section id="contact" class="contact">
-    <h2 class="section-title">Contact Me</h2>
-    <form onsubmit="submitForm(event)">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="4" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
+    <div class="chip">Have a fantastic day ✨</div>
+  </div>
 
-  <footer>
-    <p>&copy; 2025 Sachin Ghadashi. All Rights Reserved.</p>
-  </footer>
-</main>
-
-<script>
-  function submitForm(e) {
-    e.preventDefault();
-    alert("Thank you! Your message has been sent.");
-    e.target.reset();
-  }
-</script>
-
+  <!-- Hint: to change the name, just edit the text inside .name -->
 </body>
 </html>
-
